@@ -70,6 +70,7 @@ namespace AoC.Day1
             var digits = new List<string>{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
             var foo = digits.FirstOrDefault(s => v.Contains(s));
+            
 
             if(foo == null) return (false, 0);
             else return (true, digits.IndexOf(foo) + 1);

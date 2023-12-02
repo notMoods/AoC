@@ -7,29 +7,22 @@ namespace AoC.Day1
             long res = 0;
 
             foreach(var word in words)
-               res += ((FirstDigit(word) * 10) + LastDigit(word));
+               res += (Digiter(word, 1) * 10) + Digiter(word, -1);
             
             return res;     
         }
 
-        private int FirstDigit(string word)
+        private int Digiter(string word, int incrementer)
         {
-            int a = 0;
-            while(a < word.Length){
-                if(word[a] - '0' < 10 && word[a] - '0' >= 0) break;
-                a++;
+            int a = incrementer > 0 ? 0 : word.Length - 1;
+            int stop = incrementer > 0 ? word.Length - 1 : 0;
+
+            while(a != stop){
+                if(word[a] - '0' < 10) break;
+                a += incrementer;
             }
             return word[a] -'0';  
         }
 
-        private int LastDigit(string word)
-        {
-            int a = word.Length - 1;
-            while(a >= 0){
-                if(word[a] - '0' < 10 && word[a] - '0' >= 0) break;
-                a--;
-            }
-            return word[a] -'0';
-        }
     }
 }
