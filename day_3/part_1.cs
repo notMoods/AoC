@@ -8,18 +8,20 @@ namespace AoC.Day3
         private int y_max;
         private string[] grid;
         
-        private HashSet<string>? stored_numbers;
+        private HashSet<string> stored_numbers;
+
+        public Day3()
+        {
+            grid = File.ReadAllLines("day_3\\input.txt");
+            stored_numbers = new HashSet<string>();
+        }
         
         
         public long PartNumberSum()
         {
             long sum = 0;
-            var gridLines = File.ReadAllLines("day_3\\input.txt");
-            grid = gridLines;
-
-            stored_numbers = new HashSet<string>();
-
-
+            var gridLines = grid;
+    
             x_max = gridLines[0].Length - 1;
             y_max = gridLines.Length - 1;
 
@@ -95,12 +97,5 @@ namespace AoC.Day3
         }
 
         private bool BoundsCheck(int x, int y) => x >= 0 && y >= 0 && x <= x_max && y <= y_max;
-
-        public static void Main(string[] args)
-        {
-            var sol = new Day3();
-
-            Console.WriteLine(sol.PartNumberSum());
-        }
     }
 }
