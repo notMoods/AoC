@@ -9,6 +9,7 @@ namespace AoC.Day2
             public int Red{get; set;}
             public int Blue{get; set;}
         }
+    
         public int ValidGames()
         {
             var words = File.ReadAllLines("day_2\\input.txt");
