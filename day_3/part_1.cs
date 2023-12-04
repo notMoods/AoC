@@ -1,5 +1,3 @@
-using System.Linq.Expressions;
-
 namespace AoC.Day3
 {
     partial class Day3
@@ -8,27 +6,23 @@ namespace AoC.Day3
         private int y_max;
         private string[] grid;
         
-        private HashSet<string> stored_numbers;
+        private HashSet<string> stored_numbers = new HashSet<string>();
 
         public Day3()
         {
             grid = File.ReadAllLines("day_3\\input.txt");
-            stored_numbers = new HashSet<string>();
+
+            x_max = grid[0].Length - 1;
+            y_max = grid.Length - 1;
         }
-        
-        
+
         public long PartNumberSum()
         {
             long sum = 0;
-            var gridLines = grid;
-    
-            x_max = gridLines[0].Length - 1;
-            y_max = gridLines.Length - 1;
 
-
-            for(int a = 0; a < gridLines.Length; a++)
-                for(int b = 0; b < gridLines[a].Length; b++)
-                    if(gridLines[a][b] != '.' && !char.IsDigit(gridLines[a][b]))
+            for(int a = 0; a < grid.Length; a++)
+                for(int b = 0; b < grid[a].Length; b++)
+                    if(grid[a][b] != '.' && !char.IsDigit(grid[a][b]))
                         sum += SymbolPartAdder(x: b, y: a);
 
             return sum;
