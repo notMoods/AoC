@@ -9,12 +9,15 @@ namespace AoC.Day4
             var cardsList = File.ReadAllLines("day_4\\input.txt");
 
             foreach(var card in cardsList)
-                total += CardPoint(card);
+            {
+                int temp = CardMatches(card);
+                if(temp > 0) total += (int)Math.Pow(2, temp - 1);
+            }
 
             return total;
         }
 
-        private int CardPoint(string card)
+        private int CardMatches(string card)
         {
             int start_winning = char.IsWhiteSpace(card[card.IndexOf(':') + 2]) ? 
                                             card.IndexOf(':') + 3 : card.IndexOf(':') + 2;
@@ -49,7 +52,7 @@ namespace AoC.Day4
                     own.Add(int.Parse(card.Substring(num_start, b - num_start)));
 
                     while(char.IsWhiteSpace(card[b])) b++;
-                    
+
                     num_start = b;
                     b--;
                 }
@@ -57,15 +60,7 @@ namespace AoC.Day4
                 if(b == card.Length - 1) own.Add(int.Parse(card.Substring(num_start, card.Length - num_start)));
             }
 
-            int res = winning.Intersect(own).ToList().Count;
-
-            return res > 0 ? (int)Math.Pow(2, res - 1) : 0;
-        }
-
-        public static void Main(string[] args)
-        {
-            var sol = new Day4();
-            Console.WriteLine(sol.TotalCardPoint());
+            return winning.Intersect(own).ToList().Count;
         }
     }
 }
