@@ -1,21 +1,17 @@
-
-
-
-
 namespace AoC.Day5
 {
     partial class Day5
     {
         private record struct MapRange(long Dest, long Source, long Length)
         {
-            internal long? Map(long num)
+            internal readonly long? Map(long num)
             {
                 var temp = num - Source;
 
                 return temp >= 0 && temp < Length ? Dest + temp : null;
             }
 
-            private long SourceEnd => Source + Length - 1;
+            private readonly long SourceEnd => Source + Length - 1;
         }
 
         public long LowestLocationNumber()
@@ -33,7 +29,7 @@ namespace AoC.Day5
             return seeds.Min();
         }
 
-        private long Transform(IEnumerable<MapRange> section, long v)
+        private static long Transform(IEnumerable<MapRange> section, long v)
         {
             long? res = 0;
             foreach(var range in section)
