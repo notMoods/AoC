@@ -1,6 +1,3 @@
-
-using System.Security.Cryptography;
-
 namespace AoC.Day5
 {
     partial class Day5
@@ -46,7 +43,7 @@ namespace AoC.Day5
 
             foreach(var range in section)
             {
-                
+
             }
 
 
