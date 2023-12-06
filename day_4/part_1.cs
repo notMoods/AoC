@@ -1,4 +1,3 @@
-
 namespace AoC.Day4
 {
     partial class Day4

@@ -21,13 +21,13 @@ namespace AoC.Day4
 
         private void Solver(string card, int index)
         {
-            sum = sum + cardsCount[index];
+            sum += cardsCount[index];
 
             int matches = CardMatches(card);
 
             for(int a = index + 1; a <= index + matches && a < cardsCount.Count; a++)
             {
-                cardsCount[a] = cardsCount[a] + cardsCount[index];
+                cardsCount[a] += cardsCount[index];
             }
         }
     }
