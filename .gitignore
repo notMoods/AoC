@@ -30,4 +30,8 @@ obj/
 .history
 .ionide
 
+# Ignore all files named input.txt
+**/input.txt
+
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,dotnetcore
