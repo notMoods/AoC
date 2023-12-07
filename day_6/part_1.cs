@@ -19,21 +19,25 @@ namespace AoC.Day6
                                   .Select(long.Parse).ToArray();
 
             for(int a = 0; a < timeArr.Length; a++)
-            {
-                var root = Math.Sqrt(Math.Pow(timeArr[a], 2) - (4 * distArr[a]));
-
-                var top_lim = (timeArr[a] + root) / 2;
-                var down_lim = (timeArr[a] - root) / 2;
-
-                if(!IsWholeNumber(top_lim)) top_lim = Math.Ceiling(top_lim);
-                
-                if(!IsWholeNumber(down_lim)) down_lim = Math.Floor(down_lim);
-
-                res *= (long)(top_lim - down_lim - 1);
-            }
+                res *= NoOfWays(timeArr[a], distArr[a]);
+            
             return res;
         }
 
         private bool IsWholeNumber(double num) => Math.Abs(num - Math.Floor(num)) < double.Epsilon;
+
+        private long NoOfWays(long time, long dist)
+        {
+            var root = Math.Sqrt(Math.Pow(time, 2) - (4 * dist));
+
+            var top_lim = (time + root) / 2;
+            var down_lim = (time - root) / 2;
+
+            if(!IsWholeNumber(top_lim)) top_lim = Math.Ceiling(top_lim);
+                
+            if(!IsWholeNumber(down_lim)) down_lim = Math.Floor(down_lim);
+
+            return (long)(top_lim - down_lim - 1);
+        }
     }
 }
