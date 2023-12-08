@@ -85,7 +85,7 @@ namespace AoC.Day7
             var listOfHands = new List<CardHands>();
 
             foreach(var hand in input)
-                listOfHands.Add(CardHandParse(hand));
+                listOfHands.Add(new(hand[0..5], int.Parse(hand[6..])));
 
             listOfHands.Sort();
 
@@ -99,7 +99,5 @@ namespace AoC.Day7
 
             return res;
         }
-
-        private static CardHands CardHandParse(string hand) => new(hand[0..5], int.Parse(hand[6..]));
     }
 }
