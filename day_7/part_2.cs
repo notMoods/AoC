@@ -81,6 +81,8 @@ namespace AoC.Day7
             }
 
             return res;
-        }        
+        }       
+
+        public static void Main(string[] args) => Console.WriteLine(Day7.NewTotalwinnings()); 
     }
 }
