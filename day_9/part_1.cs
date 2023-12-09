@@ -21,8 +21,8 @@ namespace AoC.Day9
 
             for(int a = 1; a < list.Count; a++)
             {
-                long _first = GetFirst(a, list, 1);
-                long _last = GetFirst(a, list, -1);
+                long _first = GetFirstOrLast(a, list, 1);
+                long _last = GetFirstOrLast(a, list, -1);
 
                 listOfPairs.Add((first: _first, last: _last));
 
@@ -35,17 +35,18 @@ namespace AoC.Day9
             return list[^1] + res;  
         }
 
-        private static long GetFirst(int a, List<long> list, int determiner)
+        private static long GetFirstOrLast(int a, List<long> list, int determiner)
         {
             List<int> listOfCoefficients = GetCoefficientsPascal(a);
+
             long res = 0;
 
-            int start = determiner == 1 ? 0 : list.Count - 1;
+            int start = determiner == 1 ? listOfCoefficients.Count - 1: list.Count - 1;
 
             foreach(var coefficient in listOfCoefficients)
             {
                 res += coefficient * list[start];
-                start += determiner;
+                start--;
             }
 
             return res;
