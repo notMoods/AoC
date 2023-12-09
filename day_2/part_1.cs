@@ -26,14 +26,14 @@ namespace AoC.Day2
             var parsedGame = new ParsedGame();
             int colon_index = word.IndexOf(':');
 
-            parsedGame.ID = int.Parse(word.Substring(5, colon_index - 5));
+            parsedGame.ID = int.Parse(word[5..colon_index]);
 
             int num_start = colon_index + 2;
             for(int a = colon_index + 2; a < word.Length; a++)
             {
                 if(char.IsWhiteSpace(word[a]))
                 {
-                    int temp = int.Parse(word.Substring(num_start, a - num_start));
+                    int temp = int.Parse(word[num_start..a]);
                     switch(word[a + 1])
                     {
                         case 'r':
