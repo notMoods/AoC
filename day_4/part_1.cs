@@ -2,7 +2,7 @@ namespace AoC.Day4
 {
     partial class Day4
     {
-        public int TotalCardPoint()
+        public static int TotalCardPoint()
         {
             int total = 0;
             var cardsList = File.ReadAllLines("day_4\\input.txt");
@@ -16,7 +16,7 @@ namespace AoC.Day4
             return total;
         }
 
-        private int CardMatches(string card)
+        private static int CardMatches(string card)
         {
             int start_winning = char.IsWhiteSpace(card[card.IndexOf(':') + 2]) ? 
                                             card.IndexOf(':') + 3 : card.IndexOf(':') + 2;
@@ -34,7 +34,7 @@ namespace AoC.Day4
             {
                 if(!char.IsDigit(card[a]))
                 {
-                    winning.Add(int.Parse(card.Substring(num_start, a - num_start)));
+                    winning.Add(int.Parse(card[num_start..a]));
                     
                     while(char.IsWhiteSpace(card[a])) a++;
                     
@@ -48,7 +48,7 @@ namespace AoC.Day4
             {
                 if(!char.IsDigit(card[b]))
                 {
-                    own.Add(int.Parse(card.Substring(num_start, b - num_start)));
+                    own.Add(int.Parse(card[num_start..b]));
 
                     while(char.IsWhiteSpace(card[b])) b++;
 
@@ -56,7 +56,7 @@ namespace AoC.Day4
                     b--;
                 }
 
-                if(b == card.Length - 1) own.Add(int.Parse(card.Substring(num_start, card.Length - num_start)));
+                if(b == card.Length - 1) own.Add(int.Parse(card[num_start..]));
             }
 
             return winning.Intersect(own).ToList().Count;

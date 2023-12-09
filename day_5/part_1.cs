@@ -14,7 +14,7 @@ namespace AoC.Day5
             private readonly long SourceEnd => Source + Length - 1;
         }
 
-        public long LowestLocationNumber()
+        public static long LowestLocationNumber()
         {
             var input = File.ReadAllLines("day_5\\input.txt");
 
@@ -41,7 +41,7 @@ namespace AoC.Day5
             return v;
         }
 
-        private IEnumerable<IEnumerable<MapRange>> GetMapRanges(string[] input)
+        private static IEnumerable<IEnumerable<MapRange>> GetMapRanges(string[] input)
         {
             List<string[]> sections  = [];
             

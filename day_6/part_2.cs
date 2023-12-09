@@ -2,7 +2,7 @@ namespace AoC.Day6
 {
     partial class Day6
     {
-        public long FixedWaysToWinRace()
+        public static long FixedWaysToWinRace()
         {
             var input = File.ReadAllLines("day_6\\input.txt");
         

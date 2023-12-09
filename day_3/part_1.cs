@@ -6,7 +6,7 @@ namespace AoC.Day3
         private int y_max;
         private string[] grid;
         
-        private HashSet<string> stored_numbers = new HashSet<string>();
+        private HashSet<string> stored_numbers = [];
 
         public Day3()
         {

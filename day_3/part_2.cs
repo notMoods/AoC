@@ -9,7 +9,7 @@ namespace AoC.Day3
             for(int a = 0; a < grid.Length; a++)
                 for(int b = 0; b < grid[a].Length; b++)
                     if(grid[a][b] == '*')
-                        sum += GearRatio(x: b, y: a, new HashSet<string>());
+                        sum += GearRatio(x: b, y: a, []);
 
             return sum;
         }

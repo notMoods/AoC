@@ -1,7 +1,7 @@
 namespace AoC.Day1
 {
-    partial class Day1{
-        public long Calibrator()
+    static partial class Day1{
+        public static long Calibrator()
         {
             var words = File.ReadAllLines("day_1\\input.txt");
             long res = 0;
@@ -12,7 +12,7 @@ namespace AoC.Day1
             return res;     
         }
 
-        private int Digiter(string word, int incrementer)
+        private static int Digiter(string word, int incrementer)
         {
             int a = incrementer > 0 ? 0 : word.Length - 1;
             int stop = incrementer > 0 ? word.Length - 1 : 0;

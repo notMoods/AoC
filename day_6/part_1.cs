@@ -2,7 +2,7 @@ namespace AoC.Day6
 {
     partial class Day6
     {
-        public long WaysToBeatRecord()
+        public static long WaysToBeatRecord()
         {
             long res = 1;
 
@@ -24,9 +24,9 @@ namespace AoC.Day6
             return res;
         }
 
-        private bool IsWholeNumber(double num) => Math.Abs(num - Math.Floor(num)) < double.Epsilon;
+        private static bool IsWholeNumber(double num) => Math.Abs(num - Math.Floor(num)) < double.Epsilon;
 
-        private long NoOfWays(long time, long dist)
+        private static long NoOfWays(long time, long dist)
         {
             var root = Math.Sqrt(Math.Pow(time, 2) - (4 * dist));
 

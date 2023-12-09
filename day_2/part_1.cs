@@ -1,6 +1,6 @@
 namespace AoC.Day2
 {
-    partial class Day2
+    static partial class Day2
     {
         private struct ParsedGame
         {
@@ -10,7 +10,7 @@ namespace AoC.Day2
             public int Blue{get; set;}
         }
     
-        public int ValidGames()
+        public static int ValidGames()
         {
             var words = File.ReadAllLines("day_2\\input.txt");
             int res = 0;
@@ -21,7 +21,7 @@ namespace AoC.Day2
             return res;
         }
 
-        private ParsedGame Parser(string word)
+        private static ParsedGame Parser(string word)
         {
             var parsedGame = new ParsedGame();
             int colon_index = word.IndexOf(':');
@@ -56,7 +56,7 @@ namespace AoC.Day2
             return parsedGame;            
         }
 
-        private int GameValidator(ParsedGame pG)
+        private static int GameValidator(ParsedGame pG)
         {
             //12 red cubes, 13 green cubes, and 14 blue cubes
             if(pG.Red <= 12 && pG.Green <= 13 && pG.Blue <= 14) return pG.ID;

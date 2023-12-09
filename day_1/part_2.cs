@@ -1,21 +1,21 @@
 
 namespace AoC.Day1
 {
-    partial class Day1
+    static partial class Day1
     {
-        public long FixedCalibrator()
+        public static long FixedCalibrator()
         {
             var words = File.ReadAllLines("day_1\\input.txt");
 
             long res = 0;
 
             foreach(var word in words)
-                res += ((FixedFirstDigit(word) * 10) + FixedLastDigit(word));
+                res += (FixedFirstDigit(word) * 10) + FixedLastDigit(word);
             
             return res;
         }
 
-        private int FixedFirstDigit(string word)
+        private static int FixedFirstDigit(string word)
         {
             int a = 0;
             int res = -1;
@@ -26,11 +26,11 @@ namespace AoC.Day1
 
                 if(a >= 2)
                 {
-                    (bool isTrue, int val) temp = TextChecker(word.Substring(0, a + 1));
+                    (bool isTrue, int val) = TextChecker(word[..(a + 1)]);
 
-                    if(temp.isTrue)
+                    if(isTrue)
                     {
-                        res = temp.val;
+                        res = val;
                         break;
                     }
                 }
@@ -40,7 +40,7 @@ namespace AoC.Day1
             else return res;
         }
 
-        private int FixedLastDigit(string word)
+        private static int FixedLastDigit(string word)
         {
             int a = word.Length - 1;
             int res = -1;
@@ -51,11 +51,11 @@ namespace AoC.Day1
 
                 if(a <= word.Length - 3)
                 {
-                    (bool isTrue, int val) temp = TextChecker(word.Substring(a));
+                    (bool isTrue, int val) = TextChecker(word[a..]);
 
-                    if(temp.isTrue)
+                    if(isTrue)
                     {
-                        res = temp.val;
+                        res = val;
                         break;
                     }
                 }
@@ -65,7 +65,7 @@ namespace AoC.Day1
             else return res;
         }
 
-        private (bool isTrue, int val) TextChecker(string v)
+        private static (bool isTrue, int val) TextChecker(string v)
         {
             var digits = new List<string>{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
