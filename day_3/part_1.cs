@@ -1,4 +1,4 @@
-namespace AoC.Day3
+namespace AoC.Y_2023
 {
     partial class Day3
     {

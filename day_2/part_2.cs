@@ -1,4 +1,4 @@
-namespace AoC.Day2
+namespace AoC.Y_2023
 {
     static partial class Day2
     {
