@@ -31,7 +31,6 @@ namespace AoC.Y_2023
 
             int num_start = start_winning;
             for(int a = start_winning; a <= index_l - 1; a++)
-            {
                 if(!char.IsDigit(card[a]))
                 {
                     winning.Add(int.Parse(card[num_start..a]));
@@ -41,7 +40,6 @@ namespace AoC.Y_2023
                     num_start = a;
                     a--;
                 }
-            }
             
             num_start = start_own;
             for(int b = start_own; b < card.Length; b++)

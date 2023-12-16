@@ -24,8 +24,6 @@ namespace AoC.Y_2023
             return res;
         }
 
-        private static bool IsWholeNumber(double num) => Math.Abs(num - Math.Floor(num)) < double.Epsilon;
-
         private static long NoOfWays(long time, long dist)
         {
             var root = Math.Sqrt(Math.Pow(time, 2) - (4 * dist));
@@ -39,5 +37,7 @@ namespace AoC.Y_2023
 
             return (long)(top_lim - down_lim - 1);
         }
+
+        private static bool IsWholeNumber(double num) => Math.Abs(num - Math.Floor(num)) < double.Epsilon;
     }
 }

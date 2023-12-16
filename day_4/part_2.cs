@@ -2,7 +2,7 @@ namespace AoC.Y_2023
 {
     partial class Day4
     {   
-        private List<int> cardsCount = new List<int>();
+        private List<int> cardsCount = [];
         private long sum = 0;
         
         public long UltimateTotalCardsPoint()
@@ -12,10 +12,8 @@ namespace AoC.Y_2023
             cardsCount = Enumerable.Repeat(1, cardsList.Length).ToList();
 
             for(int a = 0; a < cardsList.Length; a++)
-            {
                 Solver(cardsList[a], a);
-            }
-
+            
             return sum;
         }
 
@@ -26,9 +24,7 @@ namespace AoC.Y_2023
             int matches = CardMatches(card);
 
             for(int a = index + 1; a <= index + matches && a < cardsCount.Count; a++)
-            {
                 cardsCount[a] += cardsCount[index];
-            }
         }
     }
 }
