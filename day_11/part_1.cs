@@ -1,0 +1,94 @@
+namespace AoC.Y_2023
+{
+    partial class Day11
+    {
+        private readonly string[] input;
+        private readonly List<int> no_galaxy_rows;
+        private readonly List<int> no_galaxy_columns;
+
+        public Day11()
+        {
+            input = File.ReadAllLines("day_11\\input.txt");
+
+            no_galaxy_rows = input.Select((value, index) => new {Value = value, Index = index})
+                                  .Where(x => !x.Value.Contains('#'))
+                                  .Select(x => x.Index).ToList();
+
+            no_galaxy_columns = FindNoGalaxyColumns();
+        }
+
+        public long SumOfShortestPaths()
+        {
+            var galaxies = input.SelectMany((row, rowIndex) => row.Select((cell, columnIndex) => new {Value = cell, x = columnIndex, y = rowIndex}))
+                                .Where(x => x.Value == '#')
+                                .Select(x => new {x.x, x.y}).ToList();
+
+            Console.WriteLine($"{no_galaxy_rows.Count}, {no_galaxy_columns.Count}, {galaxies.Count}");
+
+            var updated_galaxies = galaxies.Select(cord => GalaxyUpdater(cord.x, cord.y)).ToList();
+
+            long res = 0;
+
+            for(int a = 0; a < updated_galaxies.Count; a++)
+                for(int b = a + 1; b < updated_galaxies.Count; b++)
+                    res += Math.Abs(updated_galaxies[a].x - updated_galaxies[b].x) + Math.Abs(updated_galaxies[a].y - updated_galaxies[b].y);
+    
+            return res;
+        }
+
+        private List<int> FindNoGalaxyColumns()
+        {
+            var res = new List<int>();
+
+            var horizontal_length = input[0].Length;
+            var vertical_length = input.Length;
+
+            bool empty;
+
+            for(int a = 0; a < horizontal_length; a++)
+            {
+                empty = true;
+
+                for(int b = 0; b < vertical_length; b++)
+                    if(input[b][a] == '#')
+                    {
+                        empty = false;
+                        break;
+                    }
+                
+                if(empty) res.Add(a);
+            }
+
+            return res;
+        }
+
+        private (int x, int y) GalaxyUpdater(int x, int y)
+        {
+            int new_x = 0, new_y = 0;
+
+            for(int a = 0; a < no_galaxy_rows.Count; a++)
+            {
+                if(no_galaxy_rows[a] > y)
+                {
+                    new_y = a;
+                    break;
+                }
+
+                if(a == no_galaxy_rows.Count - 1) new_y = a + 1;
+            }
+
+            for(int a = 0; a < no_galaxy_columns.Count; a++)
+            {
+                if(no_galaxy_columns[a] > x)
+                {
+                    new_x = a;
+                    break;
+                }
+
+                if(a == no_galaxy_columns.Count - 1) new_x = a + 1;   
+            }
+
+            return (x = new_x + x, y = new_y + y);
+        }
+    }
+}
