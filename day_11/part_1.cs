@@ -6,6 +6,8 @@ namespace AoC.Y_2023
         private readonly List<int> no_galaxy_rows;
         private readonly List<int> no_galaxy_columns;
 
+        private readonly IEnumerable<(int x, int y)> galaxies;
+
         public Day11()
         {
             input = File.ReadAllLines("day_11\\input.txt");
@@ -15,16 +17,14 @@ namespace AoC.Y_2023
                                   .Select(x => x.Index).ToList();
 
             no_galaxy_columns = FindNoGalaxyColumns();
+
+            galaxies = input.SelectMany((row, rowIndex) => row.Select((cell, columnIndex) => new {Value = cell, x = columnIndex, y = rowIndex}))
+                                .Where(x => x.Value == '#')
+                                .Select(x => (x.x, x.y));
         }
 
         public long SumOfShortestPaths()
         {
-            var galaxies = input.SelectMany((row, rowIndex) => row.Select((cell, columnIndex) => new {Value = cell, x = columnIndex, y = rowIndex}))
-                                .Where(x => x.Value == '#')
-                                .Select(x => new {x.x, x.y}).ToList();
-
-            Console.WriteLine($"{no_galaxy_rows.Count}, {no_galaxy_columns.Count}, {galaxies.Count}");
-
             var updated_galaxies = galaxies.Select(cord => GalaxyUpdater(cord.x, cord.y)).ToList();
 
             long res = 0;
@@ -64,31 +64,31 @@ namespace AoC.Y_2023
 
         private (int x, int y) GalaxyUpdater(int x, int y)
         {
-            int new_x = 0, new_y = 0;
+            int num_cols = 0, num_rows = 0;
 
             for(int a = 0; a < no_galaxy_rows.Count; a++)
             {
                 if(no_galaxy_rows[a] > y)
                 {
-                    new_y = a;
+                    num_rows = a;
                     break;
                 }
 
-                if(a == no_galaxy_rows.Count - 1) new_y = a + 1;
+                if(a == no_galaxy_rows.Count - 1) num_rows = a + 1;
             }
 
             for(int a = 0; a < no_galaxy_columns.Count; a++)
             {
                 if(no_galaxy_columns[a] > x)
                 {
-                    new_x = a;
+                    num_cols = a;
                     break;
                 }
 
-                if(a == no_galaxy_columns.Count - 1) new_x = a + 1;   
+                if(a == no_galaxy_columns.Count - 1) num_cols = a + 1;   
             }
 
-            return (x = new_x + x, y = new_y + y);
+            return (num_cols + x, num_rows + y);
         }
     }
 }
