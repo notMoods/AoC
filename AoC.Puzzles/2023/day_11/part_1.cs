@@ -16,11 +16,19 @@ namespace AoC.Y_2023
                                   .Where(x => !x.Value.Contains('#'))
                                   .Select(x => x.Index).ToList();
 
-            no_galaxy_columns = FindNoGalaxyColumns();
+            no_galaxy_columns = Enumerable.Range(0, input[0].Length)
+                                .Where(colIndex => !input.Any(row => row[colIndex] == '#'))
+                                .ToList();
 
             galaxies = input.SelectMany((row, rowIndex) => row.Select((cell, columnIndex) => new {Value = cell, x = columnIndex, y = rowIndex}))
                                 .Where(x => x.Value == '#')
                                 .Select(x => (x.x, x.y));
+        }
+
+        public static void Main(string[] args)
+        {
+            var sol = new Day11();
+            Console.WriteLine($"{sol.SumOfShortestPaths()}, {sol.SumOfShortestPathsExpanded()}");
         }
 
         public long SumOfShortestPaths()
@@ -33,32 +41,6 @@ namespace AoC.Y_2023
                 for(int b = a + 1; b < updated_galaxies.Count; b++)
                     res += Math.Abs(updated_galaxies[a].x - updated_galaxies[b].x) + Math.Abs(updated_galaxies[a].y - updated_galaxies[b].y);
     
-            return res;
-        }
-
-        private List<int> FindNoGalaxyColumns()
-        {
-            var res = new List<int>();
-
-            var horizontal_length = input[0].Length;
-            var vertical_length = input.Length;
-
-            bool empty;
-
-            for(int a = 0; a < horizontal_length; a++)
-            {
-                empty = true;
-
-                for(int b = 0; b < vertical_length; b++)
-                    if(input[b][a] == '#')
-                    {
-                        empty = false;
-                        break;
-                    }
-                
-                if(empty) res.Add(a);
-            }
-
             return res;
         }
 
