@@ -1,4 +1,4 @@
-namespace AoC.Y_2023
+namespace AoC.Puzzles.Y_2023
 {
     partial class Day11
     {
@@ -24,13 +24,7 @@ namespace AoC.Y_2023
                                 .Where(x => x.Value == '#')
                                 .Select(x => (x.x, x.y));
         }
-
-        public static void Main(string[] args)
-        {
-            var sol = new Day11();
-            Console.WriteLine($"{sol.SumOfShortestPaths()}, {sol.SumOfShortestPathsExpanded()}");
-        }
-
+        
         public long SumOfShortestPaths()
         {
             var updated_galaxies = galaxies.Select(cord => GalaxyUpdater(cord.x, cord.y)).ToList();
