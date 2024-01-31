@@ -1,7 +1,22 @@
 namespace AoC.Puzzles.Y_2023
 {
-    static partial class Day2
+    class Day2 : Tools.IDay
     {
+        public (string, string) Solution(string path)
+        {
+            var words = File.ReadAllLines(path);
+
+            int res1 = 0;
+            long res2 = 0;
+
+            foreach(var word in words)
+            {
+                res1 += GameValidator(Parser(word));
+                res2 += CubeOfGame(Parser(word));
+            }
+
+            return (res1.ToString(), res2.ToString());
+        }
         private struct ParsedGame
         {
             public int ID{get; set;}
@@ -10,17 +25,6 @@ namespace AoC.Puzzles.Y_2023
             public int Blue{get; set;}
         }
     
-        public static int ValidGames()
-        {
-            var words = File.ReadAllLines("day_2\\input.txt");
-            int res = 0;
-
-            foreach(var word in words)
-                res += GameValidator(Parser(word));
-
-            return res;
-        }
-
         private static ParsedGame Parser(string word)
         {
             var parsedGame = new ParsedGame();
@@ -62,5 +66,7 @@ namespace AoC.Puzzles.Y_2023
             if(pG.Red <= 12 && pG.Green <= 13 && pG.Blue <= 14) return pG.ID;
             else return 0;
         }
+
+        private static long CubeOfGame(ParsedGame parsedGame) => parsedGame.Red * parsedGame.Blue * parsedGame.Green;
     }
 }

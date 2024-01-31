@@ -1,19 +1,27 @@
 namespace AoC.Puzzles.Y_2023
 {
-    partial class Day4
+    class Day4 : Tools.IDay
     {
-        public static int TotalCardPoint()
+        private List<int> cardsCount = [];
+        private long sum;
+        
+        public (string, string) Solution(string path)
         {
-            int total = 0;
-            var cardsList = File.ReadAllLines("day_4\\input.txt");
+            var cardsList = File.ReadAllLines(path);
 
+            cardsCount = Enumerable.Repeat(1, cardsList.Length).ToList();
+
+            long res1 = 0;
             foreach(var card in cardsList)
             {
                 int temp = CardMatches(card);
-                if(temp > 0) total += (int)Math.Pow(2, temp - 1);
+                if(temp > 0) res1 += (int)Math.Pow(2, temp - 1);
             }
 
-            return total;
+            for(int a = 0; a < cardsList.Length; a++)
+                Solver(cardsList[a], a);
+
+            return (res1.ToString(), sum.ToString());
         }
 
         private static int CardMatches(string card)
@@ -58,6 +66,16 @@ namespace AoC.Puzzles.Y_2023
             }
 
             return winning.Intersect(own).ToList().Count;
+        }
+
+        private void Solver(string card, int index)
+        {
+            sum += cardsCount[index];
+
+            int matches = CardMatches(card);
+
+            for(int a = index + 1; a <= index + matches && a < cardsCount.Count; a++)
+                cardsCount[a] += cardsCount[index];
         }
     }
 }

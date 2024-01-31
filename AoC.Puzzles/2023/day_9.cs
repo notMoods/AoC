@@ -1,17 +1,21 @@
 namespace AoC.Puzzles.Y_2023
 {
-    partial class Day9
+    class Day9 : Tools.IDay
     {
-        public static long SumOfNextValues()
+        public (string, string) Solution(string path)
         {
-            var input = File.ReadAllLines("day_9\\input.txt");
+            var input = File.ReadAllLines(path);
 
-            long res = 0;
+            long res1 = 0, res2 = 0;
 
-            foreach(var line in input)
-                res += GetNextValue(line.Split(' ').Select(long.Parse).ToList());
+            foreach (var line in input)
+            {
+                var list = line.Split(' ').Select(long.Parse).ToList();
+				res1 += GetNextValue(list);
+				res2 += GetBeforeFirstValue(list);
+			}
 
-            return res;
+            return (res1.ToString(), res2.ToString());
         }
 
         private static long GetNextValue(List<long> list)
@@ -73,5 +77,26 @@ namespace AoC.Puzzles.Y_2023
 
             return final_row;
         }
-    }
+
+		private static long GetBeforeFirstValue(List<long> list)
+		{
+			long res = 0;
+			List<(long first, long last)> listOfPairs = [];
+
+			for (int a = 1; a < list.Count; a++)
+			{
+				long _first = GetFirstOrLast(a, list, 1);
+				long _last = GetFirstOrLast(a, list, -1);
+
+				listOfPairs.Add((first: _first, last: _last));
+
+				if (_first == _last && _first == 0) break;
+			}
+
+			for (int b = listOfPairs.Count - 1; b >= 0; b--)
+				res = listOfPairs[b].first - res;
+
+			return list[0] - res;
+		}
+	}
 }
