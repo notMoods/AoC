@@ -12,15 +12,14 @@ namespace AoC.Puzzles.Y_2023
             cardsCount = Enumerable.Repeat(1, cardsList.Length).ToList();
 
             long res1 = 0;
-            foreach(var card in cardsList)
-            {
-                int temp = CardMatches(card);
-                if(temp > 0) res1 += (int)Math.Pow(2, temp - 1);
-            }
 
             for(int a = 0; a < cardsList.Length; a++)
+            {
                 Solver(cardsList[a], a);
-
+                int temp = CardMatches(cardsList[a]);
+                if(temp > 0) res1 += (int)Math.Pow(2, temp - 1);
+            }
+                
             return (res1.ToString(), sum.ToString());
         }
 

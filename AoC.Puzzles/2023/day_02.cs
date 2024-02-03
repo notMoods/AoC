@@ -11,8 +11,10 @@ namespace AoC.Puzzles.Y_2023
 
             foreach(var word in words)
             {
-                res1 += GameValidator(Parser(word));
-                res2 += CubeOfGame(Parser(word));
+                var game = Parser(word);
+                
+                res1 += GameValidator(game);
+                res2 += CubeOfGame(game);
             }
 
             return (res1.ToString(), res2.ToString());

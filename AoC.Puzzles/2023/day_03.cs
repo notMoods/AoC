@@ -4,12 +4,9 @@ namespace AoC.Puzzles.Y_2023
     {
         private int x_max;
         private int y_max;
-        private string[] grid;
+        private string[] grid = [];
         
         private HashSet<string> stored_numbers = [];
-
-        public Day3() => grid = new string[1];
-
         public (string, string) Solution(string path)
         {
             grid = File.ReadAllLines(path);
@@ -35,30 +32,9 @@ namespace AoC.Puzzles.Y_2023
         {
             long sum = 0;
 
-            //left
-            if(BoundsCheck(x - 1, y) && char.IsDigit(grid[y][x - 1])) sum += Digitizer(x - 1, y);
-
-            //right
-            if(BoundsCheck(x + 1, y) && char.IsDigit(grid[y][x + 1])) sum += Digitizer(x + 1, y);
-            
-            //up
-            if(BoundsCheck(x, y - 1) && char.IsDigit(grid[y - 1][x])) sum += Digitizer(x, y - 1);
-            
-            //down
-            if(BoundsCheck(x, y + 1) && char.IsDigit(grid[y + 1][x])) sum += Digitizer(x, y + 1);
-
-            //diagonal-up-left
-            if(BoundsCheck(x - 1, y - 1) && char.IsDigit(grid[y - 1][x - 1])) sum += Digitizer(x - 1, y - 1);
-
-            //diagonal-up-right
-            if(BoundsCheck(x + 1, y - 1) && char.IsDigit(grid[y - 1][x + 1])) sum += Digitizer(x + 1, y - 1);
-
-            //diagonal-down-left
-            if(BoundsCheck(x - 1, y + 1) && char.IsDigit(grid[y + 1][x - 1])) sum += Digitizer(x - 1, y + 1);
-
-            //diagonal-down-right
-            if(BoundsCheck(x + 1, y + 1) && char.IsDigit(grid[y + 1][x + 1])) sum += Digitizer(x + 1, y + 1);
-
+            for(int a = x - 1; a <= x + 1; a++)
+                for(int b = y - 1; b <= y + 1; b++)
+                    if(BoundsCheck(a, b) && char.IsDigit(grid[b][a])) sum += Digitizer(a, b);
 
             return sum;
         }
@@ -98,61 +74,13 @@ namespace AoC.Puzzles.Y_2023
             long sum = 1;
             int count = 0;
 
-            //left
-            if(BoundsCheck(x - 1, y) && !avoid_repeats.Contains($"x:{x - 1}, y:{y}") && char.IsDigit(grid[y][x - 1]))
-            {
-                count++;
-                sum *= NewDigitizer(x - 1, y, avoid_repeats);
-            }
-
-            //right
-            if(BoundsCheck(x + 1, y) && !avoid_repeats.Contains($"x:{x + 1}, y:{y}") && char.IsDigit(grid[y][x + 1]))
-            {
-                count++;
-                sum *= NewDigitizer(x + 1, y, avoid_repeats);
-            }
-            
-            //up
-            if(BoundsCheck(x, y - 1) && !avoid_repeats.Contains($"x:{x}, y:{y - 1}") && char.IsDigit(grid[y - 1][x]))
-            {
-                count++;
-                sum *= NewDigitizer(x, y - 1, avoid_repeats);
-            }
-            
-            //down
-            if(BoundsCheck(x, y + 1) && !avoid_repeats.Contains($"x:{x}, y:{y + 1}") && char.IsDigit(grid[y + 1][x]))
-            {
-                count++;
-                sum *= NewDigitizer(x, y + 1, avoid_repeats);
-            }
-
-            //diagonal-up-left
-            if(BoundsCheck(x - 1, y - 1) && !avoid_repeats.Contains($"x:{x - 1}, y:{y - 1}") && char.IsDigit(grid[y - 1][x - 1]))
-            {
-                count++;
-                sum *= NewDigitizer(x - 1, y - 1, avoid_repeats);
-            }
-
-            //diagonal-up-right
-            if(BoundsCheck(x + 1, y - 1) && !avoid_repeats.Contains($"x:{x + 1}, y:{y - 1}") && char.IsDigit(grid[y - 1][x + 1]))
-            {
-                count++;
-                sum *= NewDigitizer(x + 1, y - 1, avoid_repeats);
-            }
-
-            //diagonal-down-left
-            if(BoundsCheck(x - 1, y + 1) && !avoid_repeats.Contains($"x:{x - 1}, y:{y + 1}") && char.IsDigit(grid[y + 1][x - 1]))
-            {
-                count++;
-                sum *= NewDigitizer(x - 1, y + 1, avoid_repeats);
-            }
-
-            //diagonal-down-right
-            if(BoundsCheck(x + 1, y + 1) && !avoid_repeats.Contains($"x:{x + 1}, y:{y + 1}") && char.IsDigit(grid[y + 1][x + 1]))
-            {
-                count++;
-                sum *= NewDigitizer(x + 1, y + 1, avoid_repeats);
-            }
+            for(int a = x - 1; a <= x + 1; a++)
+                for(int b = y - 1; b <= y + 1; b++)
+                    if(BoundsCheck(a, b) && !avoid_repeats.Contains($"x:{a}, y:{b}") && char.IsDigit(grid[b][a]))
+                    {
+                        count++;
+                        sum *= NewDigitizer(a, b, avoid_repeats);
+                    }
 
             if(count == 2) return sum;
             else return 0;
