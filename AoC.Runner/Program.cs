@@ -11,7 +11,6 @@ namespace AoC.Runner
 
 
             Console.WriteLine($"{p1}, {p2}");
-            Console.ReadLine();
         }
     }
 }
