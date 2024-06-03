@@ -32,22 +32,25 @@ namespace AoC.Puzzles.Y_2023
 
             foreach(var grid in listOfPatterns)
             {
-                (double lineOfReflection, bool horizontal) = FindLineOfReflection(grid);
-                res1 += Calc(lineOfReflection, horizontal);
+                (long[] codesForHorizontal, long[] codesForVertical) = GetCodes(grid);
+                
+                ((double lOR, bool hor) part1, (double lOR, bool hor) part2) = GetResults(
+                    codesForHorizontal, codesForVertical
+                );
 
-                (double nlineOfReflection, bool nhorizontal) = FindLineOfReflection(grid, true);
-                res2 += Calc(nlineOfReflection, nhorizontal);
+                res1 += Calc(part1.lOR, part1.hor);
+                res2 += Calc(part2.lOR, part2.hor);
             }
 
             return (res1.ToString(), res2.ToString());
         }
 
-        private (double lineOfReflection, bool horizontal) FindLineOfReflection(string[] grid, bool part2 = false)
+        private static (long[] codesForHorizontal, long[] codesForVertical) GetCodes(string[] grid)
         {
             int horizontalCount = grid.Length, verticalCount = grid[0].Length;
 
-            Span<long> codesForHorizontal = stackalloc long[horizontalCount];
-            Span<long> codesForVertical = stackalloc long[verticalCount];
+            var codesForHorizontal = new long[horizontalCount];
+            var codesForVertical = new long[verticalCount];
 
             //adding to codes for horizontal
             for(int i = 0; i < horizontalCount; i++)
@@ -72,30 +75,66 @@ namespace AoC.Puzzles.Y_2023
                 }
                 codesForVertical[i] = code;
             }
-  
+
+            return (codesForHorizontal, codesForVertical);
+        }
+
+        private static ((double lOR, bool hor) part1, (double lOR, bool hor2) part2) GetResults(
+            long[] codesForH, long[] codesForV
+        )
+        {
+            Span<long> codesForHorizontal = codesForH.AsSpan(), codesForVertical = codesForV.AsSpan();
+
+            int horizontalCount = codesForHorizontal.Length, verticalCount = codesForVertical.Length;
+
+            (double lOR, bool hor) = (0, false);
+            (double lOR2, bool hor2) = (0, false);
+
+            bool p1Found = false, p2Found = false;
+
             //checking for mirror through vertical
-            for(var i = 0.5; i < verticalCount - 1; i++)
+            for(var i = 0.5; i < verticalCount - 1 && (!p1Found || !p2Found); i++)
             {
                 int bridge = (int)Math.Ceiling(i);
 
                 var leftSpan = codesForVertical[..bridge];
                 var rightSpan = codesForVertical[bridge..];
 
-                if(Reflects(leftSpan, rightSpan, part2)) return (1 + i, false);
+                if(!p1Found && Reflects(leftSpan, rightSpan, false))
+                {
+                    lOR = i + 1; hor = false;
+                    p1Found = true;
+                }
+
+                if(!p2Found && Reflects(leftSpan, rightSpan, true))
+                {
+                    lOR2 = i + 1; hor2 = false;
+                    p2Found = true;
+                }
             }
 
             //checking for mirror through horizontal
-            for(var i = 0.5; i < horizontalCount - 1; i++)
+            for(var i = 0.5; i < horizontalCount - 1 &&(!p1Found || !p2Found); i++)
             {
                 int bridge = (int)Math.Ceiling(i);
 
                 var leftSpan = codesForHorizontal[..bridge];
                 var rightSpan = codesForHorizontal[bridge..];
 
-                if (Reflects(leftSpan, rightSpan, part2)) return (1 + i, true);
+                if (!p1Found && Reflects(leftSpan, rightSpan, false))
+                {
+                    lOR = i + 1; hor = true;
+                    p1Found = true;  
+                }
+
+                if(!p2Found && Reflects(leftSpan, rightSpan, true))
+                {
+                    lOR2 = i + 1; hor2 = true;
+                    p2Found = true;
+                }
             }
 
-            return (0, false);
+            return ((lOR, hor), (lOR2, hor2));
 
             static bool Reflects(Span<long> left, Span<long> right, bool part2)
             {
